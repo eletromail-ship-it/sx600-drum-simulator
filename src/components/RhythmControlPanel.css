@@ -1,0 +1,151 @@
+.control-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.control-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 6px;
+  border-left: 3px solid #ff69b4;
+}
+
+.section-title {
+  font-size: 0.9em;
+  color: #ff69b4;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+}
+
+.button-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 10px;
+}
+
+.button-group.variations {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.button-group.special {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.btn {
+  padding: 12px 16px;
+  font-size: 0.95em;
+  font-weight: bold;
+  color: #eee;
+  background: linear-gradient(135deg, #2a4a7c, #1a3a5c);
+  border: 2px solid #1e90ff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: inset 0 0 10px rgba(30, 144, 255, 0.2);
+}
+
+.btn:hover {
+  background: linear-gradient(135deg, #3a5a9c, #2a4a7c);
+  box-shadow: 0 0 20px rgba(30, 144, 255, 0.5), inset 0 0 10px rgba(30, 144, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: inset 0 0 15px rgba(30, 144, 255, 0.5);
+}
+
+.btn.active {
+  background: linear-gradient(135deg, #ff69b4, #ff1493);
+  border-color: #ff69b4;
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.6), inset 0 0 10px rgba(255, 105, 180, 0.3);
+}
+
+.btn-start {
+  background: linear-gradient(135deg, #00aa00, #008800);
+  border-color: #00ff00;
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.3), inset 0 0 10px rgba(0, 255, 0, 0.1);
+}
+
+.btn-start:hover {
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.6), inset 0 0 10px rgba(0, 255, 0, 0.2);
+}
+
+.btn-stop {
+  background: linear-gradient(135deg, #aa0000, #880000);
+  border-color: #ff0000;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.3), inset 0 0 10px rgba(255, 0, 0, 0.1);
+  animation: pulse-red 0.6s ease-in-out infinite;
+}
+
+.btn-stop:hover {
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.6), inset 0 0 10px rgba(255, 0, 0, 0.2);
+}
+
+@keyframes pulse-red {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.btn-intro {
+  border-color: #ffaa00;
+  background: linear-gradient(135deg, #aa6600, #885500);
+}
+
+.btn-fill {
+  border-color: #00ffff;
+  background: linear-gradient(135deg, #006688, #004466);
+}
+
+.btn-ending {
+  border-color: #ff00ff;
+  background: linear-gradient(135deg, #880088, #660066);
+}
+
+.btn-break {
+  border-color: #ffff00;
+  background: linear-gradient(135deg, #666600, #555500);
+}
+
+.keyboard-info {
+  padding: 12px 16px;
+  background: rgba(30, 144, 255, 0.1);
+  border: 1px solid rgba(30, 144, 255, 0.3);
+  border-radius: 6px;
+  color: #1e90ff;
+  font-size: 0.9em;
+}
+
+.keyboard-info p {
+  margin: 0 0 8px 0;
+  font-weight: bold;
+}
+
+.key-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 8px;
+  font-size: 0.85em;
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .button-group.variations {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .button-group.special {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

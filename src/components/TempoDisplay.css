@@ -1,0 +1,140 @@
+.tempo-display {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tempo-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.bpm-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(
+    circle,
+    rgba(30, 144, 255, 0.25),
+    rgba(30, 144, 255, 0.05)
+  );
+  border: 3px solid #1e90ff;
+  border-radius: 50%;
+  transition: all 0.1s ease;
+  box-shadow: inset 0 0 20px rgba(30, 144, 255, 0.1);
+  position: relative;
+}
+
+.bpm-display::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(30, 144, 255, 0.3), transparent);
+  opacity: 0;
+  transition: opacity 0.1s ease;
+  pointer-events: none;
+}
+
+.bpm-display.pulse {
+  box-shadow: 0 0 40px rgba(30, 144, 255, 0.8), inset 0 0 20px rgba(30, 144, 255, 0.2);
+  transform: scale(1.12);
+}
+
+.bpm-display.pulse::before {
+  opacity: 1;
+}
+
+.bpm-number {
+  font-size: 4em;
+  font-weight: 900;
+  color: #1e90ff;
+  line-height: 1;
+  text-shadow: 0 0 20px rgba(30, 144, 255, 0.6);
+  letter-spacing: -2px;
+}
+
+.bpm-label {
+  font-size: 0.95em;
+  color: #1e90ff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-top: 8px;
+  opacity: 0.8;
+  font-weight: bold;
+}
+
+.beat-indicator {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.beat {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: rgba(30, 144, 255, 0.1);
+  border: 2px solid rgba(30, 144, 255, 0.3);
+  border-radius: 8px;
+  color: #1e90ff;
+  font-weight: bold;
+  font-size: 1.2em;
+  transition: all 0.15s ease;
+  cursor: default;
+}
+
+.beat.active {
+  background: rgba(30, 144, 255, 0.3);
+  border-color: #00ff00;
+  color: #00ff00;
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.6), inset 0 0 10px rgba(0, 255, 0, 0.2);
+  transform: scale(1.1);
+}
+
+.tempo-keyboard-info {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  font-size: 0.85em;
+}
+
+.key-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(30, 144, 255, 0.1);
+  border: 1px solid rgba(30, 144, 255, 0.3);
+  border-radius: 4px;
+  color: #1e90ff;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .bpm-display {
+    width: 150px;
+    height: 150px;
+  }
+
+  .bpm-number {
+    font-size: 3em;
+  }
+
+  .beat {
+    width: 50px;
+    height: 50px;
+    font-size: 1em;
+  }
+}
