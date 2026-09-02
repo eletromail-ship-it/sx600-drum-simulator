@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import type { RhythmControl } from '@/types';
 
 interface KeyboardListenerProps {
@@ -31,6 +31,13 @@ const KeyboardListener: React.FC<KeyboardListenerProps> = ({ onKeyPress }) => {
       if (control) {
         event.preventDefault();
         onKeyPress(control);
+        
+        // Efeito visual no botão (opcional)
+        const button = document.querySelector(`[data-key="${key}"]`);
+        if (button) {
+          button.classList.add('key-pressed');
+          setTimeout(() => button.classList.remove('key-pressed'), 100);
+        }
       }
     };
 
@@ -38,7 +45,7 @@ const KeyboardListener: React.FC<KeyboardListenerProps> = ({ onKeyPress }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onKeyPress]);
 
-  return null; // Este componente não renderiza nada visível
+  return null;
 };
 
 export default KeyboardListener;

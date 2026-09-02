@@ -7,13 +7,18 @@ interface TempoDisplayProps {
 
 const TempoDisplay: React.FC<TempoDisplayProps> = ({ bpm }) => {
   const [beatPulse, setBeatPulse] = useState(false);
+  const [beatCount, setBeatCount] = useState(0);
 
   useEffect(() => {
-    // Cria um visual de "batida" sincronizado com o BPM
-    const msPerBeat = (60000 / bpm);
+    const msPerBeat = 60000 / bpm;
+    let beatCounter = 0;
+    
     const pulseInterval = setInterval(() => {
       setBeatPulse(true);
-      setTimeout(() => setBeatPulse(false), 100);
+      beatCounter = (beatCounter + 1) % 4;
+      setBeatCount(beatCounter);
+      
+      setTimeout(() => setBeatPulse(false), 150);
     }, msPerBeat);
 
     return () => clearInterval(pulseInterval);
@@ -24,34 +29,30 @@ const TempoDisplay: React.FC<TempoDisplayProps> = ({ bpm }) => {
       <h2>🎵 Tempo</h2>
       
       <div className="tempo-content">
+        {/* BPM Display */}
         <div className={`bpm-display ${beatPulse ? 'pulse' : ''}`}>
           <div className="bpm-number">{Math.round(bpm)}</div>
           <div className="bpm-label">BPM</div>
         </div>
 
-        <div className="tempo-controls">
-          <button className="tempo-btn tempo-minus" title=", (vírgula)">
-            ◀ Diminuir
-          </button>
-          <button className="tempo-btn tempo-tap" title="/ (barra)">
-            🎯 Tap Tempo
-          </button>
-          <button className="tempo-btn tempo-plus" title=". (ponto)">
-            Aumentar ▶
-          </button>
+        {/* Beat Indicator */}
+        <div className="beat-indicator">
+          {[0, 1, 2, 3].map((beat) => (
+            <div
+              key={beat}
+              className={`beat ${beatCount === beat && beatPulse ? 'active' : ''}`}
+              title={`Beat ${beat + 1}`}
+            >
+              {beat + 1}
+            </div>
+          ))}
         </div>
 
-        <div className="tempo-range">
-          <div className="range-label">30</div>
-          <div className="range-bar">
-            <div
-              className="range-fill"
-              style={{
-                width: `${((bpm - 30) / (300 - 30)) * 100}%`,
-              }}
-            ></div>
-          </div>
-          <div className="range-label">300</div>
+        {/* Keyboard Info */}
+        <div className="tempo-keyboard-info">
+          <span className="key-hint">, (vírgula)</span>
+          <span className="key-hint">. (ponto)</span>
+          <span className="key-hint">/ (barra)</span>
         </div>
       </div>
     </div>

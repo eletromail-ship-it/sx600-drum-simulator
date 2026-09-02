@@ -6,6 +6,7 @@ import StyleSelector from './components/StyleSelector';
 import RhythmControlPanel from './components/RhythmControlPanel';
 import TempoDisplay from './components/TempoDisplay';
 import KeyboardListener from './components/KeyboardListener';
+import HelpModal from './components/HelpModal';
 import './App.css';
 
 const App: React.FC = () => {
@@ -14,6 +15,11 @@ const App: React.FC = () => {
     rhythmController.getState()
   );
   const [loading, setLoading] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+  const [notification, setNotification] = useState<{
+    message: string;
+    type: 'success' | 'error';
+  } | null>(null);
 
   useEffect(() => {
     // Inicializa o controlador
@@ -34,14 +40,38 @@ const App: React.FC = () => {
     };
   }, [rhythmController]);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === '?' || (e.shiftKey && e.key === '/')) {
+        setShowHelp(true);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => setNotification(null), 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
+
   const handleStyleLoad = async (file: File) => {
     setLoading(true);
     try {
       const buffer = await file.arrayBuffer();
       const style = StyleParser.parse(buffer);
       rhythmController.loadStyle(style);
+      setNotification({
+        message: `✅ Ritmo "${style.name}" carregado com sucesso!`,
+        type: 'success',
+      });
     } catch (error) {
-      alert(`Erro ao carregar arquivo: ${error}`);
+      setNotification({
+        message: `❌ Erro ao carregar: ${error}`,
+        type: 'error',
+      });
     } finally {
       setLoading(false);
     }
@@ -54,9 +84,27 @@ const App: React.FC = () => {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>🥁 Simulador SX600</h1>
-        <p>Bateria Eletrônica Yamaha PSR-SX600</p>
+        <div className="header-content">
+          <div className="header-title">
+            <h1>🥁 Simulador SX600</h1>
+            <p>Bateria Eletrônica Yamaha PSR-SX600</p>
+          </div>
+          <button
+            className="help-button"
+            onClick={() => setShowHelp(true)}
+            title="? - Abrir ajuda"
+          >
+            ?
+          </button>
+        </div>
       </header>
+
+      {/* Notificação */}
+      {notification && (
+        <div className={`notification notification-${notification.type}`}>
+          {notification.message}
+        </div>
+      )}
 
       <main className="app-main">
         <div className="container">
@@ -70,7 +118,7 @@ const App: React.FC = () => {
             <div className="status-item">
               <span className="label">Estilo:</span>
               <span className="value">
-                {rhythmState.currentStyle?.name || 'Nenhum carregado'}
+                {rhythmState.currentStyle?.name || 'Demo'}
               </span>
             </div>
             <div className="status-item">
@@ -105,8 +153,11 @@ const App: React.FC = () => {
       {/* Listener de Teclado */}
       <KeyboardListener onKeyPress={handleControl} />
 
+      {/* Help Modal */}
+      <HelpModal isOpen={showHelp} onClose={() => setShowHelp(false)} />
+
       <footer className="app-footer">
-        <p>Use o teclado ou clique nos botões para controlar | Dica: Aperte ? para ajuda</p>
+        <p>🎮 Use o teclado ou clique nos botões | 💡 Pressione <strong>?</strong> para ajuda | v0.1.0</p>
       </footer>
     </div>
   );
